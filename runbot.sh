@@ -1,6 +1,4 @@
 set +v echo off
-fgt=ruben
-echo $fgt
 echo Connecting....
 eval node bot.js
 sleep 1000
