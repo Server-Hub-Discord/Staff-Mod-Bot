@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "6"
+  
+install:
+  - npm install
+  - npm install discord.js
+  - npm install moment
+  - npm install randomcolor
+  
+script:
+  - bash runbot.sh
