@@ -4,6 +4,7 @@ const config = require("./config.json");
 const moment = require('moment');
 const randomcolor = require('randomcolor');
 const banid = require("./banid.json");
+const kickid = require("./kickid.json");
 
 process.on('uncaughtException', err =>{
     console.log('error: ' + err);//STOPS THE BOT FROM CRASHING
@@ -17,8 +18,14 @@ bot.on('ready',() => {
 
 bot.on("guildMemberAdd", member =>{
 	let guild = member.guild;
-	guild.defaultChannel.sendMessage(`welcome ${member.user} to Server Hub`).catch(console.error);
-	guild.defaultChannel.sendMessage(" ", {embed: {
+	for(var i = 0; i < kickid.kickids.length; i++) {
+			if(member.id == kickid.kickids[i]) {
+				kickid.kickids.splice(i, 1);
+				break;
+			}
+	}
+	bot.channels.get("227815924135231488").sendMessage(`welcome ${member.user} to Server Hub`).catch(console.error);
+	bot.channels.get("227815924135231488").sendMessage(" ", {embed: {
 			color: 0x3447003,
             		author: {
 				name: member.user.username,
@@ -62,8 +69,17 @@ bot.on("guildMemberRemove", member => {
 			return;
 		}
 	}
+	for(var i = 0; i < kickid.kickids.length; i++){
+        	if(member.id == kickid.kickids[i]) {
+			bot.channels.get("227815924135231488").sendMessage(" ", {embed: {
+				color: 0xFFFF00,
+				description: `${member.user.username}#${member.user.discriminator} just left the server`
+			}}).catch(console.error);
+			return;
+		}
+	}
 	let guild = member.guild;
-	bot.channels.get("227815924135231488").sendMessage("", {embed: {
+	bot.channels.get("227815924135231488").sendMessage(" ", {embed: {
 		color: 0xFFFF00,
 		description: `${member.user.username}#${member.user.discriminator} just left the server`
 	}}).catch(console.error);
@@ -289,6 +305,7 @@ bot.on('message', message => { //start of command list
 		if(!message.guild.member(bot.user).hasPermission("KICK_MEMBERS")) {
 			return message.reply("i dont have the permission (KICK_MEMBER) to do this :sadface:").catch(console.error);
 		}
+		kickid.kickids.push(member.id);
 		//we need to get a *GuildMember* object, mentions are only users. Then, we kick!
 		message.guild.member(userToKick).kick().then(member => {
 			message.reply(`${member.user.username} was kicked.`).catch(console.error);
