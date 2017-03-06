@@ -1,10 +1,8 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client();
-const config = require("json/config.json");
+const config = require("./config.json");
 const moment = require('moment');
 const randomcolor = require('randomcolor');
-const banid = require("json/banid.json");
-const kickid = require("json/kickid.json");
 
 process.on('uncaughtException', err =>{
     console.log('error: ' + err);//STOPS THE BOT FROM CRASHING
@@ -17,14 +15,6 @@ bot.on('ready',() => {
 });
 
 bot.on("guildMemberAdd", member =>{
-	let guild = member.guild;
-	for(var i = 0; i < kickid.kickids.length; i++) {
-			if(member.id == kickid.kickids[i]) {
-				kickid.kickids.splice(i, 1);
-				break;
-			}
-	}
-	bot.channels.get("227815924135231488").sendMessage(`welcome ${member.user} to Server Hub`).catch(console.error);
 	bot.channels.get("227815924135231488").sendMessage(" ", {embed: {
 			color: 0x3447003,
             		author: {
@@ -46,16 +36,9 @@ bot.on("guildBanAdd", member =>{
 		color: 0xFF0000,
 		description: `:hammer: **User Banned:** ${member.user.username}#${member.user.discriminator} (${member.id})`
 	}}).catch(console.error);
-	banid.banids.push(member.id);
 });
 
 bot.on("guildBanRemove", member =>{
-	for(var i = 0; i < banid.banids.length; i++) {
-		if(member.id == banid.banids[i]) {
-			banid.banids.splice(i, 1);
-			break;
-		}
-	}
 	bot.channels.get("227815924135231488").sendMessage(" ", {embed: {
 		color: 0x00FF00,
 		description: `:hammer: **User Unbanned:** ${member.user.username}#${member.user.discriminator} (${member.id})`
@@ -64,20 +47,6 @@ bot.on("guildBanRemove", member =>{
 });
 
 bot.on("guildMemberRemove", member => {
-	for(var i = 0; i < banid.banids.length; i++){
-        	if(member.id == banid.banids[i]) {
-			return;
-		}
-	}
-	for(var i = 0; i < kickid.kickids.length; i++){
-        	if(member.id == kickid.kickids[i]) {
-			bot.channels.get("227815924135231488").sendMessage(" ", {embed: {
-				color: 0xFFFF00,
-				description: `${member.user.username}#${member.user.discriminator} just left the server`
-			}}).catch(console.error);
-			return;
-		}
-	}
 	let guild = member.guild;
 	bot.channels.get("227815924135231488").sendMessage(" ", {embed: {
 		color: 0xFFFF00,
@@ -101,12 +70,6 @@ bot.on('message', message => { //start of command list
 	var argresult = args.join(" ");
 
 	let guild = message.guild
-
-	for(var i = 0; i < config.block.length; i++){
-        	if(message.author.id == config.block[i]) {
-			return;
-		}
-	}
 
 	if (command === "membercount") {
 		message.channel.sendMessage(`${message.guild.memberCount}`);
@@ -161,30 +124,6 @@ bot.on('message', message => { //start of command list
 		var day  = date.getDate();
 		message.channel.sendMessage("it's the **`" + day + "/" + month + "/" + year + "`** in Belgium");
 	}
-	if (command === "mutefrombot") {
-		let modRole = message.guild.roles.find("name", "Staff");
-		if(!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
-			return message.reply("pleb ur not admin").catch(console.error);
-		}
-		let member = message.guild.member(message.mentions.users.first());
-		config.block.push(member.id);
-		message.channel.sendMessage(member + " has been added to the muted list " + config.emojis.success);
-	}
-	if (command === "unmutefrombot") {
-		let modRole = message.guild.roles.find("name", "Staff");
-		if(!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
-			return message.reply("pleb ur not admin").catch(console.error);
-		}
-		let member = message.guild.member(message.mentions.users.first());
-		for(var i = 0; i < config.block.length; i++) {
-			if(member.id == config.block[i]) {
-				config.block.splice(i, 1);
-				message.channel.sendMessage(member + " has been removed from the muted list " + config.emojis.success);
-				break;
-			}
-		}
-
-	}
 	if (command === "addrole") {
 		let modRole = message.guild.roles.find("name", "Staff");
 		if(!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
@@ -218,9 +157,6 @@ bot.on('message', message => { //start of command list
 	}
 	if (command === "sourcecode"){
 		message.channel.sendMessage("https://github.com/Server-Hub-Discord/staff-mod-bot");
-	}
-	if (command === "pokemon") {
-		message.channel.sendFile("./pokemon.gif")
 	}
 	if (command === "avatar") {
 		let args = message.content.split(' ');
@@ -305,7 +241,6 @@ bot.on('message', message => { //start of command list
 		if(!message.guild.member(bot.user).hasPermission("KICK_MEMBERS")) {
 			return message.reply("i dont have the permission (KICK_MEMBER) to do this :sadface:").catch(console.error);
 		}
-		kickid.kickids.push(member.id);
 		//we need to get a *GuildMember* object, mentions are only users. Then, we kick!
 		message.guild.member(userToKick).kick().then(member => {
 			message.reply(`${member.user.username} was kicked.`).catch(console.error);
@@ -370,5 +305,5 @@ bot.on('message', message => { //start of command list
 }); // END message handler
 
 
-bot.login(process.env.token);
+bot.login(config.token);
 
