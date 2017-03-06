@@ -1,6 +1,6 @@
 set +v echo off
-echo please enter your token
-read token
+fgt=ruben
+echo $fgt
 echo Connecting....
 eval node bot.js
 sleep 1000
