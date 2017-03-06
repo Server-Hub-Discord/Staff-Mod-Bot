@@ -3,8 +3,8 @@ const bot = new Discord.Client();
 const config = require("./config.json");
 const moment = require('moment');
 const randomcolor = require('randomcolor');
-const banid = require("./banid.json");
-const kickid = require("./kickid.json");
+const banid = require("json/banid.json");
+const kickid = require("json/kickid.json");
 
 process.on('uncaughtException', err =>{
     console.log('error: ' + err);//STOPS THE BOT FROM CRASHING
