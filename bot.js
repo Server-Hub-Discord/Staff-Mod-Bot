@@ -43,15 +43,14 @@ bot.on("guildBanAdd", member =>{
 });
 
 bot.on("guildBanRemove", member =>{
-  for(var i = 0; i < banid.banids.length; i++) {
-    if(member.id == banid.banids[i]) {
-      banid.banids.splice(i, 1);
-      message.channel.sendMessage(member + " has been removed from the muted list " + config.emojis.success);
-      break;
-    }
-  }
+	for(var i = 0; i < banid.banids.length; i++) {
+		if(member.id == banid.banids[i]) {
+			banid.banids.splice(i, 1);
+			break;
+		}
+	}
 	bot.channels.get("227815924135231488").sendMessage(" ", {embed: {
-		color: 0xFF0000,
+		color: 0x00FF00,
 		description: `:hammer: **User Unbanned:** ${member.user.username}#${member.user.discriminator} (${member.id})`
 	}}).catch(console.error);
 	banid.banids.push(member.id);
