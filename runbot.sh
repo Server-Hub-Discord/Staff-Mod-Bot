@@ -1,4 +1,4 @@
-set +v echo off
+#!/bin/bash
 echo Connecting....
 eval node bot.js
 sleep 1000
