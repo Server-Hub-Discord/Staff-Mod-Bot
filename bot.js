@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client();
-const config = require("./config.json");
+const config = require("json/config.json");
 const moment = require('moment');
 const randomcolor = require('randomcolor');
 const banid = require("json/banid.json");
