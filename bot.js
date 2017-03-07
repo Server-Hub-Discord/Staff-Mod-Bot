@@ -210,12 +210,12 @@ bot.on('message', message => { //start of command list
         	}
         	message.author.sendMessage(" ", {embed: {
         	    color: 0x00b7c6,
-        	    },
         	    title: "Command List",
         	    description: cmds,
         	    footer: {
         	        icon_url: bot.user.avatarURL,
-		    }});
+		    }
+		    }}).catch(console.error);
 
 	}
 	if (command === "say") {
