@@ -24,7 +24,6 @@ bot.on("guildMemberAdd", member => {
             break;
         }
     }
-    bot.channels.get("227815924135231488").sendMessage(`welcome ${member.user} to Server Hub`).catch(console.error);
     bot.channels.get("227815924135231488").sendMessage(" ", {
         embed: {
             color: 0x3447003,
@@ -154,7 +153,7 @@ bot.on('message', message => { //start of command list
             }
           ]
 
-        }});
+        }}).catch(console.error);
     }
     if (command === "botservers") {
         message.channel.sendMessage(bot.guilds.map(g => `${g.name} | ${g.memberCount}`));
