@@ -120,6 +120,7 @@ bot.on('message', message => { //start of command list
         	    icon_url: guild.icon,
         	  },
         	  description: `ID: ${guild.id}`,
+		  thumbnail: guild.icon,
         	  fields: [
         	    {
         	      name: "Default Channel",
