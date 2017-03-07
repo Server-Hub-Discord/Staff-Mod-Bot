@@ -321,7 +321,7 @@ bot.on('message', message => { //start of command list
             footer: {
                 icon_url: bot.user.avatarURL,
             }
-        });
+	    }}).catch(console.error);
 
     }
     if (command === "say") {
