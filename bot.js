@@ -413,4 +413,4 @@ bot.on('message', message => { //start of command list
 }); // END message handler
 
 
-bot.login(process.env.token);
+bot.login(process.argv[2]);
