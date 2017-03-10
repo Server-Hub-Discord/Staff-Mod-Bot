@@ -5,6 +5,7 @@ const moment = require('moment');
 const randomcolor = require('randomcolor');
 const banid = require("json/banid.json");
 const kickid = require("json/kickid.json");
+const beautify = require('js-beautify').js_beautify;
 
 process.on('uncaughtException', err => {
     console.log('error: ' + err); //STOPS THE BOT FROM CRASHING
@@ -201,6 +202,31 @@ bot.on('message', message => { //start of command list
         var month = date.getMonth() + 1;
         var day = date.getDate();
         message.channel.sendMessage("it's the **`" + day + "/" + month + "/" + year + "`** in Belgium");
+    }
+    if (command === "beautify") {
+        let messages = message.channel.messages.array().reverse().filter(msg => msg.author.id !== message.client.user.id);
+    	let code;
+
+    	let codeRegex = /```(?:js|json|javascript)?\n?((?:\n|.)+?)\n?```/ig;
+
+    	for (let m = 0; m < messages.length; m++) {
+    	  let msg = messages[m];
+     	  let groups = codeRegex.exec(msg.content);
+
+     	 if (groups && groups[1] && groups[1].length) {
+     	   code = groups[1];
+     	   break;
+     	 }
+   	 }
+
+   	 if (!code) {
+   	   return message.channel.sendMessage(`${config.emojis.warn} No JavaScript code blocks found.`);
+   	 }
+
+   	 let beautifiedCode = beautify(code, { indent_size: 2, brace_style: 'none' });
+    	beautifiedCode = this.reduceIndentation(beautifiedCode);
+
+    	message.channel.sendMessage(`${'```js'}\n${beautifiedCode}\n${'```'}`);
     }
     if (command === "mutefrombot") {
         let modRole = message.guild.roles.find("name", "Staff");
