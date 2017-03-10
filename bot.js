@@ -9,6 +9,15 @@ const banid = require("json/banid.json");
 const kickid = require("json/kickid.json");
 const config = require("json/config.json");
 
+const google = require('googleapis');
+const OAuth2 = google.auth.OAuth2;
+
+var oauth2Client = new OAuth2(
+  config.google.id,
+  config.google.secret,
+  config.google.redirecturlURL
+);
+
 process.on('uncaughtException', err => {
     console.log('error: ' + err); //STOPS THE BOT FROM CRASHING
 });
