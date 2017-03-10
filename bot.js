@@ -1,11 +1,13 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client();
-const config = require("json/config.json");
+
 const moment = require('moment');
 const randomcolor = require('randomcolor');
+const beautify = require('js-beautify').js_beautify;
+
 const banid = require("json/banid.json");
 const kickid = require("json/kickid.json");
-const beautify = require('js-beautify').js_beautify;
+const config = require("json/config.json");
 
 process.on('uncaughtException', err => {
     console.log('error: ' + err); //STOPS THE BOT FROM CRASHING
