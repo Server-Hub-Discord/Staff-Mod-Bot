@@ -156,6 +156,22 @@ bot.on('message', message => { //start of command list
 
         }}).catch(console.error);
     }
+    if (command === "reduceindent") {
+        let whitespace = string.match(/^(\s+)/);
+
+    	if (!whitespace) return string;
+
+    	whitespace = whitespace[0].replace('\n', '');
+
+    	let lines = string.split('\n');
+    	let reformattedLines = [];
+
+    	lines.forEach((line) => {
+    	  reformattedLines.push(line.replace(whitespace, ''));
+    	});
+
+    	return reformattedLines.join('\n');
+    }
     if (command === "botservers") {
         message.channel.sendMessage(bot.guilds.map(g => `${g.name} | ${g.memberCount}`));
     }
@@ -436,6 +452,9 @@ bot.on('message', message => { //start of command list
     }
 
 }); // END message handler
+bot.on("disconnect", () => {
+  console.log("Disconnected.");
+});
 
 
 bot.login(process.argv[2]);
