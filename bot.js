@@ -305,5 +305,5 @@ bot.on('message', message => { //start of command list
 }); // END message handler
 
 
-bot.login(config.token);
+bot.login(config.client.token);
 
