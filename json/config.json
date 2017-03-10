@@ -1,7 +1,6 @@
 {
  "client" : {
-    "prefix" : "s!",
-    "token" : ""
+    "prefix" : "s!"
  },
  "creator": {
   "Jimmy": "226003765889597440"
