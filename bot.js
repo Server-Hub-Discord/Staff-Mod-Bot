@@ -11,12 +11,17 @@ const config = require("json/config.json");
 
 const google = require('googleapis');
 const OAuth2 = google.auth.OAuth2;
-
 var oauth2Client = new OAuth2(
   config.google.id,
   config.google.secret,
   config.google.redirecturlURL
 );
+oauth2Client.setCredentials({
+  access_token: 'ACCESS TOKEN HERE',
+  refresh_token: 'REFRESH TOKEN HERE'
+  // Optional, provide an expiry_date (milliseconds since the Unix Epoch)
+  // expiry_date: (new Date()).getTime() + (1000 * 60 * 60 * 24 * 7)
+});
 
 process.on('uncaughtException', err => {
     console.log('error: ' + err); //STOPS THE BOT FROM CRASHING
