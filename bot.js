@@ -83,6 +83,9 @@ bot.on('message', message => { //start of command list
 	if (command === "membercount") {
 		message.channel.sendMessage(`${message.guild.memberCount}`);
 	}
+	if (command === "lmeo") {
+		message.channel.sendMessage("L\nM\nA\nO\no\no\no\n。\n。\n.\n.\n.");
+	}
 	if (command === "serverinfo") {
 		message.channel.sendMessage(`${message.guild.name} | ${message.guild.memberCount}`);
 	}
