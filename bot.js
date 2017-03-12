@@ -188,7 +188,7 @@ bot.on('message', message => { //start of command list
 				author: message.author.username + '#' + message.author.discriminator,
 				icon_url: member.user.avatarURL
 			}
-	}}).catch(console.error);
+		}}).react("👍").react("👎").catch(console.error);
 	}
 	if (command === "ping"){
 		message.channel.sendMessage("Yes, yes I'm on").catch(console.error);
