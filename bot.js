@@ -8,11 +8,12 @@ const beautify = require('js-beautify').js_beautify;
 const banid = require("json/banid.json");
 const kickid = require("json/kickid.json");
 const config = require("json/config.json");
+const googleconfig = require("json/googleconfig.json");
 
 const GoogleSearch = require('google-search');
 const googleSearch = new GoogleSearch({
-  key: 'YOUR_API_KEY',
-  cx: 'YOUR_CX'
+    key: googleconfig.key,
+    cx: googleconfig.cx
 });
 
 process.on('uncaughtException', err => {
