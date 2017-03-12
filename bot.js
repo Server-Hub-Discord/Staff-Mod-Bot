@@ -9,18 +9,10 @@ const banid = require("json/banid.json");
 const kickid = require("json/kickid.json");
 const config = require("json/config.json");
 
-const google = require('googleapis');
-const OAuth2 = google.auth.OAuth2;
-var oauth2Client = new OAuth2(
-  config.google.id,
-  config.google.secret,
-  config.google.redirecturlURL
-);
-oauth2Client.setCredentials({
-  access_token: 'ACCESS TOKEN HERE',
-  refresh_token: 'REFRESH TOKEN HERE'
-  // Optional, provide an expiry_date (milliseconds since the Unix Epoch)
-  // expiry_date: (new Date()).getTime() + (1000 * 60 * 60 * 24 * 7)
+const GoogleSearch = require('google-search');
+const googleSearch = new GoogleSearch({
+  key: 'YOUR_API_KEY',
+  cx: 'YOUR_CX'
 });
 
 process.on('uncaughtException', err => {
@@ -171,6 +163,18 @@ bot.on('message', message => { //start of command list
           ]
 
         }}).catch(console.error);
+    }
+    if (command === "google") {
+    	googleSearch.build({
+ 		q: args,
+  		start: 5,
+  		gl: "co.uk", //geolocation, 
+  		lr: "lang_en",
+ 		num: 1, // Number of search results to return between 1 and 10, inclusive 
+  		siteSearch: "https://google.com" // Restricts results to URLs from a specified site 
+	}, function(error, response) {
+  		message.channel.sendMessage(response);
+	});
     }
     if (command === "reduceindent") {
         let whitespace = string.match(/^(\s+)/);
