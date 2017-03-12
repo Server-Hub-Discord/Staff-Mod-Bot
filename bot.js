@@ -1,31 +1,38 @@
+//main bot creating code
 const Discord = require("discord.js");
 const bot = new Discord.Client();
 
+//modules
 const moment = require('moment');
 const randomcolor = require('randomcolor');
 const beautify = require('js-beautify').js_beautify;
+const GoogleSearch = require('google-search');
 
+//jsons
 const banid = require("json/banid.json");
 const kickid = require("json/kickid.json");
 const config = require("json/config.json");
 const googleconfig = require("json/googleconfig.json");
 
-const GoogleSearch = require('google-search');
+//google key and cx
 const googleSearch = new GoogleSearch({
     key: googleconfig.key,
     cx: googleconfig.cx
 });
 
+//STOPS THE BOT FROM CRASHING
 process.on('uncaughtException', err => {
-    console.log('error: ' + err); //STOPS THE BOT FROM CRASHING
+    console.log('error: ' + err); 
 });
 
+//when bot is ready
 bot.on('ready', () => {
     console.log(`Connected! ${config.emojis.success}`);
     console.log(`Logged in as ${bot.user.username}`);
     bot.user.setGame(config.setgame);
 });
 
+//when a member joins the server
 bot.on("guildMemberAdd", member => {
     let guild = member.guild;
     for (var i = 0; i < kickid.kickids.length; i++) {
@@ -52,6 +59,7 @@ bot.on("guildMemberAdd", member => {
     }).catch(console.error);
 });
 
+//when a member is banned in the server
 bot.on("guildBanAdd", member => {
     bot.channels.get("227815924135231488").sendMessage(" ", {
         embed: {
@@ -62,6 +70,7 @@ bot.on("guildBanAdd", member => {
     banid.banids.push(member.id);
 });
 
+//when a member is unbanned in the server
 bot.on("guildBanRemove", member => {
     for (var i = 0; i < banid.banids.length; i++) {
         if (member.id == banid.banids[i]) {
@@ -78,6 +87,7 @@ bot.on("guildBanRemove", member => {
     banid.banids.push(member.id);
 });
 
+//when a member leaves the server
 bot.on("guildMemberRemove", member => {
     for (var i = 0; i < banid.banids.length; i++) {
         if (member.id == banid.banids[i]) {
@@ -104,11 +114,14 @@ bot.on("guildMemberRemove", member => {
     }).catch(console.error);
 });
 
+// this code does so that when the bot joins a server it says to the hoster
 bot.on("guildCreate", guild => {
     console.log(`New guild added : ${guild.name}, owned by ${guild.owner.user} ${config.emojis.working}`).catch(console.error);
-}); // this code does so that when the bot joins a server it says to RSCodes
+}); 
 
-bot.on('message', message => { //start of command list
+
+//main command handler
+bot.on('message', message => {
 
     if (message.author.bot) return;
     if (!message.content.startsWith(config.client.prefix)) return;
@@ -126,7 +139,7 @@ bot.on('message', message => { //start of command list
             return;
         }
     }
-
+    //start of command list
     if (command === "membercount") {
         message.channel.sendMessage(`${message.guild.memberCount}`);
     }
