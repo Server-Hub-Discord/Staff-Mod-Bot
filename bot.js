@@ -180,7 +180,7 @@ bot.on('message', message => { //start of command list
 			return message.reply("pleb ur not admin").catch(console.error);
 		}
 		let noto = message.content.split(" ").slice(1).join(" ");
-		var guildss = bot.channels.get(260884357894373376)
+		var guildss = bot.channels.get(260884357894373376);
 		guildss.sendMessage("**:information_source: Announcement [" + moment().format("Do MMMM YYYY ") + "]**", {embed: {
 			color: 0x00b7c6,
 			description: noto,
