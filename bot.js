@@ -56,16 +56,18 @@ bot.on("guildMemberRemove", member => {
 
 bot.on("guildCreate", guild => {
 	console.log(`New guild added : ${guild.name}, owned by ${guild.owner.user} ${config.emojis.working}`).catch(console.error);
-	var noto = `Hey I'm ${bot.user.username}.\n Unfortunatley I'm a bot made for this server only https://discord.gg/tPksgxK.\n Feel free to join ;) but please dont use commands unless they're normal commands`;
-	var embed = new Discord.RichEmbed();
-		embed.setColor(randomcolor())
-			.setDescription(noto)
-	guild.defaultChannel.sendEmbed(
+	if (!guild.id === 260882540238209024) {
+		var noto = `Hey I'm ${bot.user.username}.\n Unfortunatley I'm a bot made for this server only https://discord.gg/tPksgxK.\n Feel free to join ;) but please dont use commands unless they're normal shitposting commands`;
+		var embed = new Discord.RichEmbed();
+			embed.setColor(randomcolor())
+				.setDescription(noto)
+		guild.defaultChannel.sendEmbed(
 			embed, {
 				disableEveryone: true
 			}
 		);
-}); // this code does so that when the bot joins a server it says to RSCodes
+	}
+}); // this code does so that when the bot joins a server it says to the hoster
 
 bot.on('message', message => { //start of command list
 
@@ -80,6 +82,9 @@ bot.on('message', message => { //start of command list
 
 	let guild = message.guild
 
+	if (command === "wiki") {
+		message.channel.sendMessage('https://github.com/Server-Hub-Discord/Staff-Mod-Bot/wiki');
+	}
 	if (command === "membercount") {
 		message.channel.sendMessage(`${message.guild.memberCount}`);
 	}
