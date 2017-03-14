@@ -8,7 +8,7 @@ server-bot is a bot written in javascript using [discord.js](https://github.com/
 
 ### How do I set it up?
 
-If you're the bot hoster for server hub then either save all the files and then use ```npm install``` or look [here](https://github.com/Server-Hub-Discord/Staff-Mod-Bot/blob/stable/requirements.md) once done open the batch/shell file
+If you're the bot hoster for server hub then look [here](https://github.com/Server-Hub-Discord/bot-setup). Download the files and then open first-download.bat, then setup-dependencies.bat and then to update code when Jimmy tells you to update then use update.bat
 
 ### Commands
 
