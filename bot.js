@@ -15,7 +15,7 @@ bot.on('ready',() => {
 });
 
 bot.on("guildMemberAdd", member =>{
-	bot.channels.get("227815924135231488").sendMessage(" ", {embed: {
+	bot.channels.get("227815924135231488").sendMessage("", {embed: {
 			color: 0x3447003,
             		author: {
 				name: member.user.username,
@@ -32,14 +32,14 @@ bot.on("guildMemberAdd", member =>{
 });
 
 bot.on("guildBanAdd", member =>{
-	bot.channels.get("227815924135231488").sendMessage(" ", {embed: {
+	bot.channels.get("227815924135231488").sendMessage("", {embed: {
 		color: 0xFF0000,
 		description: `:hammer: **User Banned:** ${member.user.username}#${member.user.discriminator} (${member.id})`
 	}}).catch(console.error);
 });
 
 bot.on("guildBanRemove", member =>{
-	bot.channels.get("227815924135231488").sendMessage(" ", {embed: {
+	bot.channels.get("227815924135231488").sendMessage("", {embed: {
 		color: 0x00FF00,
 		description: `:hammer: **User Unbanned:** ${member.user.username}#${member.user.discriminator} (${member.id})`
 	}}).catch(console.error);
@@ -48,7 +48,7 @@ bot.on("guildBanRemove", member =>{
 
 bot.on("guildMemberRemove", member => {
 	let guild = member.guild;
-	bot.channels.get("227815924135231488").sendMessage(" ", {embed: {
+	bot.channels.get("227815924135231488").sendMessage("", {embed: {
 		color: 0xFFFF00,
 		description: `${member.user.username}#${member.user.discriminator} just left the server`
 	}}).catch(console.error);
@@ -108,7 +108,7 @@ bot.on('message', message => { //start of command list
 	}
 	if (command === 'embed') {
 		let modRole = message.guild.roles.find("name", "Staff");
-		if(!message.member.roles.has(modRole.id) || !message.author.id === config.creator.Jimmy) {
+		if (!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
 			return message.reply("pleb ur not staff").catch(console.error);
 		}
 		let noto = message.content.split(" ").slice(1).join(" ");
@@ -123,13 +123,13 @@ bot.on('message', message => { //start of command list
 		);
 	}
 	if (command === "setgame") {
-		if(!message.author.id === config.creator.Jimmy) {
+		if (!message.author.id === config.creator.Jimmy) {
 			return message.reply("pleb ur not Jimmy").catch(console.error);
 		}
 		bot.user.setGame(argresult);
 	}
 	if (command === "setstatus") {
-		if(!message.author.id === config.creator.Jimmy) {
+		if (!message.author.id === config.creator.Jimmy) {
 			return message.reply("pleb ur not Jimmy").catch(console.error);
 		}
 		bot.user.setStatus(argresult);
@@ -184,7 +184,7 @@ bot.on('message', message => { //start of command list
 	}
 	if (command === "announce"){
 		let modRole = message.guild.roles.find("name", "Staff");
-		if(!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
+		if (!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
 			return message.reply("pleb ur not admin").catch(console.error);
 		}
 		let noto = message.content.split(" ").slice(1).join(" ");
@@ -215,22 +215,22 @@ bot.on('message', message => { //start of command list
 		message.channel.sendMessage("https://www.zelfmoord1813.be/").catch(console.error);
         	let modRole = message.guild.roles.find("name", "Staff");
         	let adminRole = message.guild.roles.find("name", "Owner");
-        	var cmds;
+        	var cmds = ``;
         	cmds += `**My Normal Commands are:** \n ${config.client.prefix}membercount \n ${config.client.prefix}serverinfo \n ${config.client.prefix}botservers \n ${config.client.prefix}date \n ${config.client.prefix}sourcecode \n ${config.client.prefix}pokemon \n ${config.client.prefix}avatar \n ${config.client.prefix}ping \n ${config.client.prefix}creator \n ${config.client.prefix}help \n ${config.client.prefix}stats \n ${config.client.prefix}myuserinfo`;
         	if(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy) {
-        		cmds += `**My Staff commands are** \n ${config.client.prefix}embed [what you want to embed] \n ${config.client.prefix}addrole {user} [role] \n ${config.client.prefix}delrole {user} [role] \n ${config.client.prefix}announce [what you want to announce in #announcements] \n ${config.client.prefix}say [what you want to say] \n ${config.client.prefix}kick {user} \n \n more details on how to use these commands coming soon`;
+        		cmds += `**My Staff commands are:** \n ${config.client.prefix}embed [what you want to embed] \n ${config.client.prefix}addrole {user} [role] \n ${config.client.prefix}delrole {user} [role] \n ${config.client.prefix}announce [what you want to announce in #announcements] \n ${config.client.prefix}say [what you want to say] \n ${config.client.prefix}kick {user} \n \n more details on how to use these commands coming soon`;
         	}
         	if(message.member.roles.has(adminRole.id) || message.author.id === config.creator.Jimmy) {
-        		cmds += `My Owner/Creator Commands are: \n ${config.client.prefix}setbotavatarurl (only Jimmy) \n ${config.client.prefix}setstatus (only Jimmy) \n ${config.client.prefix}shutdown \n ${config.client.prefix}restart`;
+        		cmds += `**My Owner/Creator Commands are:** \n ${config.client.prefix}setbotavatarurl (only Jimmy) \n ${config.client.prefix}setstatus (only Jimmy) \n ${config.client.prefix}shutdown \n ${config.client.prefix}restart`;
         	}
-        	message.author.sendMessage(" ", {embed: {
+        	message.author.sendMessage("", {embed: {
         	    color: 0x00b7c6,
         	    title: "Command List",
         	    description: cmds,
         	    footer: {
         	        icon_url: bot.user.avatarURL,
 		    }
-		    }}).catch(console.error);
+		}}).catch(console.error);
 
 	}
 	if (command === "say") {
