@@ -98,7 +98,7 @@ bot.on('message', message => { //start of command list
 		message.channel.sendMessage(bot.guilds.map(g => `${g.name} | ${g.memberCount}`));
 	}
 	if (command === "setbotavatarurl") {
-		if (!message.author.id === config.creator.Jimmy) {
+		if (!config.creator.Jimmy.includes(message.author.id)) {
 			return message.reply("pleb ur not the bot creator").catch(console.error);
 		}
 		let args = message.content.split(" ").slice(1);
@@ -108,7 +108,7 @@ bot.on('message', message => { //start of command list
 	}
 	if (command === 'embed') {
 		let modRole = message.guild.roles.find("name", "Staff");
-		if (!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
+		if (!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
 			return message.reply("pleb ur not staff").catch(console.error);
 		}
 		let noto = message.content.split(" ").slice(1).join(" ");
@@ -122,13 +122,13 @@ bot.on('message', message => { //start of command list
 		);
 	}
 	if (command === "setgame") {
-		if (!message.author.id === config.creator.Jimmy) {
+		if (!config.creator.Jimmy.includes(message.author.id)) {
 			return message.reply("pleb ur not Jimmy").catch(console.error);
 		}
 		bot.user.setGame(argresult);
 	}
 	if (command === "setstatus") {
-		if (!message.author.id === config.creator.Jimmy) {
+		if (!config.creator.Jimmy.includes(message.author.id)) {
 			return message.reply("pleb ur not Jimmy").catch(console.error);
 		}
 		bot.user.setStatus(argresult);
@@ -142,7 +142,7 @@ bot.on('message', message => { //start of command list
 	}
 	if (command === "addrole") {
 		let modRole = message.guild.roles.find("name", "Staff");
-		if(!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
+		if(!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
 			return message.reply("pleb ur not admin").catch(console.error);
 		}
 		let args = message.content.split(' ');
@@ -159,7 +159,7 @@ bot.on('message', message => { //start of command list
 	}
 	if (command === "delrole") {
 		let modRole = message.guild.roles.find("name", "Staff");
-		if(!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
+		if(!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
 			return message.reply("pleb ur not mod").catch(console.error);
 		}
 		let args = message.content.split(' ');
@@ -188,7 +188,7 @@ bot.on('message', message => { //start of command list
 	}
 	if (command === "announce"){
 		let modRole = message.guild.roles.find("name", "Staff");
-		if (!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
+		if (!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
 			return message.reply("pleb ur not admin").catch(console.error);
 		}
 		let noto = message.content.split(" ").slice(1).join(" ");
@@ -221,10 +221,10 @@ bot.on('message', message => { //start of command list
       let adminRole = message.guild.roles.find("name", "Owner");
       var cmds = ``;
       cmds += `**My Normal Commands are:** \n ${config.client.prefix}membercount \n ${config.client.prefix}serverinfo \n ${config.client.prefix}botservers \n ${config.client.prefix}date \n ${config.client.prefix}sourcecode \n ${config.client.prefix}pokemon \n ${config.client.prefix}avatar \n ${config.client.prefix}ping \n ${config.client.prefix}creator \n ${config.client.prefix}help \n ${config.client.prefix}stats \n ${config.client.prefix}myuserinfo`;
-      if (message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy) {
+      if (message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id)) {
           cmds += `\n\n **My Staff commands are** \n ${config.client.prefix}embed [what you want to embed] \n ${config.client.prefix}addrole {user} [role] \n ${config.client.prefix}delrole {user} [role] \n ${config.client.prefix}announce [what you want to announce in #announcements] \n ${config.client.prefix}say [what you want to say] \n ${config.client.prefix}kick {user} \n \n more details on how to use these commands coming soon`;
       }
-      if (message.member.roles.has(adminRole.id) || message.author.id === config.creator.Jimmy) {
+      if (message.member.roles.has(adminRole.id) || config.creator.Jimmy.includes(message.author.id)) {
           cmds += `\n\n **My Owner/Creator Commands are:** \n ${config.client.prefix}setbotavatarurl (only Jimmy) \n ${config.client.prefix}setstatus (only Jimmy) \n ${config.client.prefix}shutdown \n ${config.client.prefix}restart`;
       }
       message.author.sendMessage(" ", {
@@ -237,7 +237,7 @@ bot.on('message', message => { //start of command list
   }
 	if (command === "say") {
 		let modRole = message.guild.roles.find("name", "Staff");
-		if(!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
+		if(!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
 			return message.reply("pleb ur not an admin").catch(console.error);
 		}
 		message.channel.sendMessage(args.join(" ")).catch(console.error);
@@ -245,7 +245,7 @@ bot.on('message', message => { //start of command list
 	if (command === "kick") {
 		let modRole = message.guild.roles.find("name", "Staff");
 		let userToKick = message.mentions.users.first();
-		if(!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
+		if(!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
 			return message.reply("pleb ur not mod").catch(console.error);
 		}
 		if(message.mention.user.size === 0) {
@@ -266,7 +266,7 @@ bot.on('message', message => { //start of command list
 	if (command === "shutdown") {
 		let modRole = message.guild.roles.find("name", "Owner");
 		let userToKick = message.mentions.users.first();
-		if(!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
+		if(!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
 				return message.reply("pleb ur not admin").catch(console.error);
 		}
 		message.channel.sendMessage("no hanky panky while I'm gone ok :wave:")
