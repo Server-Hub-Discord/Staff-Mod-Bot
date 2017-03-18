@@ -14,7 +14,7 @@
   "author": "KDiaCodes and RubenThomasM",
   "license": "GPL-3.0",
   "dependencies": {
-    "discord.js": "11.0.",
+    "discord.js": "11.0.0",
     "randomcolor":"0.4.4",
     "moment":"2.17.1"
   },
