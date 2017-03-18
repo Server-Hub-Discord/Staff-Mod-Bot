@@ -14,10 +14,9 @@
   "author": "KDiaCodes and RubenThomasM",
   "license": "GPL-3.0",
   "dependencies": {
-    "discord.js": "^10.0.1",
+    "discord.js": "11.0.",
     "randomcolor":"0.4.4",
-    "moment":"2.17.1",
-    "js-beautify": "^1.6.4"
+    "moment":"2.17.1"
   },
   "devDependencies": {
     "eslint": "3.17.1"    
