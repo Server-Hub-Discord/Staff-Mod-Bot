@@ -92,8 +92,40 @@ bot.on('message', message => { //start of command list
 		message.channel.sendMessage("L\nM\nA\nO\no\no\no\n。\n。\n.\n.\n.");
 	}
 	if (command === "serverinfo") {
-		message.channel.sendMessage(`${message.guild.name} | ${message.guild.memberCount}`);
-	}
+        let guild = message.guild;
+        message.channel.sendMessage("", {embed: {
+          color: 0x006400,
+          author: {
+            name: guild.name,
+            icon_url: guild.icon,
+          },
+          description: `ID: ${guild.id}`,
+          thumbnail: guild.icon,
+          fields: [
+            {
+              name: "Default Channel",
+              value: guild.defaultChannel
+            },
+            {
+              name: "Region",
+              value: guild.region
+            },
+            {
+              name: `Members [${guild.memberCount}]`,
+              value: guild.members.filter(online).size
+            },
+            {
+              name: "Server Owner",
+              value: `${guild.owner.username}#${guild.owner.discriminator} (${guild.owner.id})`
+            },
+            {
+              name: "Created On",
+              value: guild.createdAt
+            }
+          ]
+
+        }}).catch(console.error);
+    }
 	if (command === "botservers") {
 		message.channel.sendMessage(bot.guilds.map(g => `${g.name} | ${g.memberCount}`));
 	}
