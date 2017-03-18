@@ -5,14 +5,13 @@ const bot = new Discord.Client();
 //modules
 const moment = require('moment');
 const randomcolor = require('randomcolor');
-const beautify = require('js-beautify').js_beautify;
 const GoogleSearch = require('google-search');
 
 //jsons
-const banid = require("json/banid.json");
-const kickid = require("json/kickid.json");
-const config = require("json/config.json");
-const googleconfig = require("json/googleconfig.json");
+const banid = require("./json/banid.json");
+const kickid = require("./json/kickid.json");
+const config = require("./json/config.json");
+const googleconfig = require("./json/googleconfig.json");
 
 //google key and cx
 const googleSearch = new GoogleSearch({
@@ -22,7 +21,7 @@ const googleSearch = new GoogleSearch({
 
 //STOPS THE BOT FROM CRASHING
 process.on('uncaughtException', err => {
-    console.log('error: ' + err); 
+    console.log(moment().format("Do MMMM YYYY ") + 'error: ' + err);
 });
 
 //when bot is ready
@@ -117,7 +116,7 @@ bot.on("guildMemberRemove", member => {
 // this code does so that when the bot joins a server it says to the hoster
 bot.on("guildCreate", guild => {
     console.log(`New guild added : ${guild.name}, owned by ${guild.owner.user} ${config.emojis.working}`).catch(console.error);
-}); 
+});
 
 
 //main command handler
@@ -180,31 +179,15 @@ bot.on('message', message => {
     }
     if (command === "google") {
     	googleSearch.build({
- 		q: args,
-  		start: 5,
-  		gl: "co.uk", //geolocation, 
-  		lr: "lang_en",
- 		num: 1, // Number of search results to return between 1 and 10, inclusive 
-  		siteSearch: "https://google.com" // Restricts results to URLs from a specified site 
-	}, function(error, response) {
+ 		     q: args,
+  		   start: 5,
+  		   gl: "be", //geolocation,
+  		   lr: "lang_en",
+ 		     num: 1, // Number of search results to return between 1 and 10, inclusive
+  		    siteSearch: "https://google.be" // Restricts results to URLs from a specified site
+	    }, function(error, response) {
   		message.channel.sendMessage(response);
-	});
-    }
-    if (command === "reduceindent") {
-        let whitespace = string.match(/^(\s+)/);
-
-    	if (!whitespace) return string;
-
-    	whitespace = whitespace[0].replace('\n', '');
-
-    	let lines = string.split('\n');
-    	let reformattedLines = [];
-
-    	lines.forEach((line) => {
-    	  reformattedLines.push(line.replace(whitespace, ''));
-    	});
-
-    	return reformattedLines.join('\n');
+	   });
     }
     if (command === "botservers") {
         message.channel.sendMessage(bot.guilds.map(g => `${g.name} | ${g.memberCount}`));
@@ -252,31 +235,6 @@ bot.on('message', message => {
         var month = date.getMonth() + 1;
         var day = date.getDate();
         message.channel.sendMessage("it's the **`" + day + "/" + month + "/" + year + "`** in Belgium");
-    }
-    if (command === "beautify") {
-        let messages = message.channel.messages.array().reverse().filter(msg => msg.author.id !== message.client.user.id);
-    	let code;
-
-    	let codeRegex = /```(?:js|json|javascript)?\n?((?:\n|.)+?)\n?```/ig;
-
-    	for (let m = 0; m < messages.length; m++) {
-    	  let msg = messages[m];
-     	  let groups = codeRegex.exec(msg.content);
-
-     	 if (groups && groups[1] && groups[1].length) {
-     	   code = groups[1];
-     	   break;
-     	 }
-   	 }
-
-   	 if (!code) {
-   	   return message.channel.sendMessage(`${config.emojis.warn} No JavaScript code blocks found.`);
-   	 }
-
-   	 let beautifiedCode = beautify(code, { indent_size: 2, brace_style: 'none' });
-    	beautifiedCode = this.reduceIndentation(beautifiedCode);
-
-    	message.channel.sendMessage(`${'```js'}\n${beautifiedCode}\n${'```'}`);
     }
     if (command === "mutefrombot") {
         let modRole = message.guild.roles.find("name", "Staff");
@@ -349,13 +307,13 @@ bot.on('message', message => {
             return message.reply("pleb ur not admin").catch(console.error);
         }
         let noto = message.content.split(" ").slice(1).join(" ");
-        var guildss = bot.channels.get(260884357894373376)
+        var guildss = bot.channels.get('260884357894373376')
         guildss.sendMessage("**:information_source: Announcement [" + moment().format("Do MMMM YYYY ") + "]**", {
             embed: {
                 color: 0x00b7c6,
                 description: noto,
                 footer: {
-                    author: message.author.username + '#' + message.author.discriminator,
+                    text: message.author.username + '#' + message.author.discriminator,
                     icon_url: member.user.avatarURL
                 }
             }
@@ -378,23 +336,19 @@ bot.on('message', message => {
         message.channel.sendMessage("https://www.zelfmoord1813.be/").catch(console.error);
         let modRole = message.guild.roles.find("name", "Staff");
         let adminRole = message.guild.roles.find("name", "Owner");
-        var cmds;
+        var cmds = ``;
         cmds += `**My Normal Commands are:** \n ${config.client.prefix}membercount \n ${config.client.prefix}serverinfo \n ${config.client.prefix}botservers \n ${config.client.prefix}date \n ${config.client.prefix}sourcecode \n ${config.client.prefix}pokemon \n ${config.client.prefix}avatar \n ${config.client.prefix}ping \n ${config.client.prefix}creator \n ${config.client.prefix}help \n ${config.client.prefix}stats \n ${config.client.prefix}myuserinfo`;
         if (message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy) {
-            cmds += `**My Staff commands are** \n ${config.client.prefix}embed [what you want to embed] \n ${config.client.prefix}addrole {user} [role] \n ${config.client.prefix}delrole {user} [role] \n ${config.client.prefix}announce [what you want to announce in #announcements] \n ${config.client.prefix}say [what you want to say] \n ${config.client.prefix}kick {user} \n \n more details on how to use these commands coming soon`;
+            cmds += `\n\n **My Staff commands are** \n ${config.client.prefix}embed [what you want to embed] \n ${config.client.prefix}addrole {user} [role] \n ${config.client.prefix}delrole {user} [role] \n ${config.client.prefix}announce [what you want to announce in #announcements] \n ${config.client.prefix}say [what you want to say] \n ${config.client.prefix}kick {user} \n \n more details on how to use these commands coming soon`;
         }
         if (message.member.roles.has(adminRole.id) || message.author.id === config.creator.Jimmy) {
-            cmds += `My Owner/Creator Commands are: \n ${config.client.prefix}setbotavatarurl (only Jimmy) \n ${config.client.prefix}setstatus (only Jimmy) \n ${config.client.prefix}shutdown \n ${config.client.prefix}restart`;
+            cmds += `\n\n **My Owner/Creator Commands are:** \n ${config.client.prefix}setbotavatarurl (only Jimmy) \n ${config.client.prefix}setstatus (only Jimmy) \n ${config.client.prefix}shutdown \n ${config.client.prefix}restart`;
         }
         message.author.sendMessage(" ", {
             embed: {
                 color: 0x00b7c6,
-            },
             title: "Command List",
             description: cmds,
-            footer: {
-                icon_url: bot.user.avatarURL,
-            }
 	    }}).catch(console.error);
 
     }
@@ -493,7 +447,7 @@ bot.on('message', message => {
             if (seconds < 10) seconds = "0" + seconds;
             return hours + ":" + minutes + ":" + seconds;
         };
-        message.channel.sendMessage("**Uptime: " + toHHMMSS(process.uptime()) + " **");	
+        message.channel.sendMessage("**Uptime: " + toHHMMSS(process.uptime()) + " **");
     }
 
 }); // END message handler
@@ -502,4 +456,4 @@ bot.on("disconnect", () => {
 });
 
 
-bot.login(process.argv[2]);
+bot.login(config.token);
