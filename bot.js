@@ -112,9 +112,8 @@ bot.on('message', message => { //start of command list
 			return message.reply("pleb ur not staff").catch(console.error);
 		}
 		let noto = message.content.split(" ").slice(1).join(" ");
-		message.delete()
-		var embed = new Discord.RichEmbed();
-		embed.setColor(randomcolor())
+		const embed = new Discord.RichEmbed()
+      .setColor(randomcolor())
 			.setDescription(noto)
 		message.channel.sendEmbed(
 			embed, {
@@ -155,7 +154,7 @@ bot.on('message', message => { //start of command list
 		// or the person who made the command: let member = msg.member;
 		// Add the role!
 		member.addRole(role.id).catch(console.error);
-		message.channel.sendMessage("role " + args.join(" ") + " has been added").react("👍");
+		message.channel.sendMessage("role " + args.join(" ") + " has been added  👍");
 
 	}
 	if (command === "delrole") {
@@ -171,7 +170,7 @@ bot.on('message', message => { //start of command list
 		let member = message.guild.member(message.mentions.users.first());
 		// or the person who made the command: let member = msg.member;
 		member.removeRole(role.id).catch(console.error);
-		message.channel.sendMessage("role " + args.join(" ") + " has been deleted").react("👍");
+		message.channel.sendMessage("role " + args.join(" ") + " has been deleted 👍");
 	}
 	if (command === "sourcecode"){
 		message.channel.sendMessage("https://github.com/Server-Hub-Discord/staff-mod-bot");
@@ -181,6 +180,10 @@ bot.on('message', message => { //start of command list
 		args.shift();
 		args.shift();
 		let member = message.guild.member(message.mentions.users.first());
+    if (!member) {
+      message.channel.sendMessage(message.author.avatarURL);
+      return;
+    }
 		return message.reply(member.user.avatarURL)
 	}
 	if (command === "announce"){
@@ -216,14 +219,7 @@ bot.on('message', message => { //start of command list
         	let modRole = message.guild.roles.find("name", "Staff");
         	let adminRole = message.guild.roles.find("name", "Owner");
         	var normalcmds = `**My Normal Commands are:** \n ${config.client.prefix}membercount \n ${config.client.prefix}serverinfo \n ${config.client.prefix}botservers \n ${config.client.prefix}date \n ${config.client.prefix}sourcecode \n ${config.client.prefix}pokemon \n ${config.client.prefix}avatar \n ${config.client.prefix}ping \n ${config.client.prefix}creator \n ${config.client.prefix}help \n ${config.client.prefix}stats \n ${config.client.prefix}myuserinfo`;
-        	message.author.sendMessage("", {embed: {
-        	    color: 0x00b7c6,
-        	    title: "Command List",
-        	    description: normalcmds,
-        	    footer: {
-        	        icon_url: bot.user.avatarURL,
-		    }
-		}}).catch(console.error);
+        	message.author.sendMessage(normalcmds).catch(console.error);
 
 	}
   if (command === "staffhelp"){
@@ -232,15 +228,8 @@ bot.on('message', message => { //start of command list
         		return;
         	}
           var staffcmds = `**My Staff commands are:** \n ${config.client.prefix}embed [what you want to embed] \n ${config.client.prefix}addrole {user} [role] \n ${config.client.prefix}delrole {user} [role] \n ${config.client.prefix}announce [what you want to announce in #announcements] \n ${config.client.prefix}say [what you want to say] \n ${config.client.prefix}kick {user} \n \n more details on how to use these commands coming soon`;
-        	message.author.sendMessage("", {embed: {
-        	    color: 0x00b7c6,
-        	    title: "Staff Command List",
-        	    description: staffcmds,
-        	    footer: {
-        	        icon_url: bot.user.avatarURL,
-		    }
-		}}).catch(console.error);
-
+        	message.author.sendMessage(staffcmds).catch(console.error);
+          message.delete();
 	}
   if (command === "ownerhelp"){
         	let adminRole = message.guild.roles.find("name", "Owner");
@@ -248,15 +237,8 @@ bot.on('message', message => { //start of command list
         		return;
         	}
           var ownercmds = `**My Owner/Creator Commands are:** \n ${config.client.prefix}setbotavatarurl (only Jimmy) \n ${config.client.prefix}setstatus (only Jimmy) \n ${config.client.prefix}shutdown \n ${config.client.prefix}restart`;
-        	message.author.sendMessage("", {embed: {
-        	    color: 0x00b7c6,
-        	    title: "Owner/Creator Command List",
-        	    description: ownercmds,
-        	    footer: {
-        	        icon_url: bot.user.avatarURL,
-		    }
-		}}).catch(console.error);
-
+        	message.author.sendMessage(ownercmds).catch(console.error);
+          message.delete();
 	}
 	if (command === "say") {
 		let modRole = message.guild.roles.find("name", "Staff");
