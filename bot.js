@@ -156,6 +156,7 @@ bot.on('message', message => { //start of command list
 		// Add the role!
 		member.addRole(role.id).catch(console.error);
 		message.channel.sendMessage("role " + args.join(" ") + " has been added").react("👍");
+
 	}
 	if (command === "delrole") {
 		let modRole = message.guild.roles.find("name", "Staff");
