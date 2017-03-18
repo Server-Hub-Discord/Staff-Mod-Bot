@@ -5,7 +5,7 @@ const moment = require('moment');
 const randomcolor = require('randomcolor');
 
 process.on('uncaughtException', err =>{
-    console.log('error: ' + err);//STOPS THE BOT FROM CRASHING
+    console.log(moment().format("Do MMMM YYYY ") + 'error: ' + err);//STOPS THE BOT FROM CRASHING
 });
 
 bot.on('ready',() => {
@@ -218,7 +218,7 @@ bot.on('message', message => { //start of command list
 		message.channel.sendMessage("https://www.zelfmoord1813.be/").catch(console.error);
         	let modRole = message.guild.roles.find("name", "Staff");
         	let adminRole = message.guild.roles.find("name", "Owner");
-        	var normalcmds = `**My Normal Commands are:** \n ${config.client.prefix}membercount \n ${config.client.prefix}serverinfo \n ${config.client.prefix}botservers \n ${config.client.prefix}date \n ${config.client.prefix}sourcecode \n ${config.client.prefix}pokemon \n ${config.client.prefix}avatar \n ${config.client.prefix}ping \n ${config.client.prefix}creator \n ${config.client.prefix}help \n ${config.client.prefix}stats \n ${config.client.prefix}myuserinfo`;
+        	var normalcmds = `**My Normal Commands are:** \n ${config.client.prefix}membercount \n ${config.client.prefix}serverinfo \n ${config.client.prefix}botservers \n ${config.client.prefix}date \n ${config.client.prefix}sourcecode \n ${config.client.prefix}avatar \n ${config.client.prefix}ping \n ${config.client.prefix}creator \n ${config.client.prefix}help \n ${config.client.prefix}stats \n ${config.client.prefix}myuserinfo`;
         	message.author.sendMessage(normalcmds).catch(console.error);
 
 	}
