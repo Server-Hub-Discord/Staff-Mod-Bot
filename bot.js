@@ -93,7 +93,10 @@ bot.on('message', message => { //start of command list
 	}
 	if (command === "serverinfo") {
         let guild = message.guild;
-        message.channel.sendMessage("", {embed: {
+        function online(m) {
+          return m.presence.status === "online"
+        }
+        message.channel.sendMessage(" ", {embed: {
           color: 0x006400,
           author: {
             name: guild.name,
@@ -104,7 +107,7 @@ bot.on('message', message => { //start of command list
           fields: [
             {
               name: "Default Channel",
-              value: guild.defaultChannel
+              value: guild.defaultChannel.toString()
             },
             {
               name: "Region",
@@ -112,7 +115,7 @@ bot.on('message', message => { //start of command list
             },
             {
               name: `Members [${guild.memberCount}]`,
-              value: guild.members.filter(online).size
+              value: message.guild.members.filter(online).size
             },
             {
               name: "Server Owner",
@@ -125,7 +128,7 @@ bot.on('message', message => { //start of command list
           ]
 
         }}).catch(console.error);
-    }
+    	}
 	if (command === "botservers") {
 		message.channel.sendMessage(bot.guilds.map(g => `${g.name} | ${g.memberCount}`));
 	}
