@@ -1,13 +1,13 @@
 {
   "client" : {
-    "prefix" : "s!" 
+    "prefix" : "s!"
   },
-  "token" : "",
+  "token" : "Mjg1Njk0NDQ5MDY4MTQ2Njk4.C5V5NA.kmzvxcLUEPSZ6BCTRJchvmhAvgM",
   "creator": {
-    "Jimmy": "226003765889597440" 
+    "Jimmy": "226003765889597440"
   }, 
-  "emojis": {  
-    "success": "✅",  
+  "emojis": {
+    "success": "✅",
     "warn": "⚠",
     "working": "⚙"
   },

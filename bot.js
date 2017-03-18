@@ -56,7 +56,7 @@ bot.on("guildMemberRemove", member => {
 
 bot.on("guildCreate", guild => {
 	console.log(`New guild added : ${guild.name}, owned by ${guild.owner.user} ${config.emojis.working}`).catch(console.error);
-	if (!guild.id === 260882540238209024) {
+	if (!guild.id === '260882540238209024') {
 		var noto = `Hey I'm ${bot.user.username}.\n Unfortunatley I'm a bot made for this server only https://discord.gg/tPksgxK.\n Feel free to join ;) but please dont use commands unless they're normal shitposting commands`;
 		var embed = new Discord.RichEmbed();
 			embed.setColor(randomcolor())
@@ -113,7 +113,7 @@ bot.on('message', message => { //start of command list
 		}
 		let noto = message.content.split(" ").slice(1).join(" ");
 		const embed = new Discord.RichEmbed()
-      .setColor(randomcolor())
+    embed.setColor(randomcolor())
 			.setDescription(noto)
 		message.channel.sendEmbed(
 			embed, {
@@ -192,14 +192,15 @@ bot.on('message', message => { //start of command list
 			return message.reply("pleb ur not admin").catch(console.error);
 		}
 		let noto = message.content.split(" ").slice(1).join(" ");
-		bot.channels.get(260884357894373376).sendMessage("**:information_source: Announcement [" + moment().format("Do MMMM YYYY ") + "]**", {embed: {
+	  bot.channels.get('260884357894373376').sendMessage("**:information_source: Announcement [" + moment().format("Do MMMM YYYY ") + "]**", {embed: {
 			color: 0x00b7c6,
 			description: noto,
 			footer: {
-				author: message.author.username + '#' + message.author.discriminator,
-				icon_url: member.user.avatarURL
+				text: `${message.author.username}#${message.author.discriminator}`,
+				icon_url: message.author.avatarURL
 			}
-		}}).react("👍").react("👎").catch(console.error);
+		}}).catch(console.error);
+    message.delete();
 	}
 	if (command === "ping"){
 		message.channel.sendMessage("Yes, yes I'm on").catch(console.error);
@@ -207,39 +208,33 @@ bot.on('message', message => { //start of command list
 	if (command === "creator"){
 		var embed = new Discord.RichEmbed();
 		embed.setColor(randomcolor())
-			.setDescription(`my creator is <@${config.creator.Jimmy}>`)
+		.setDescription(`my creator is <@${config.creator.Jimmy}>`)
 		message.channel.sendEmbed(
 			embed, {
 				disableEveryone: true
 			}
 		);
 	}
-	if (command === "help"){
-		message.channel.sendMessage("https://www.zelfmoord1813.be/").catch(console.error);
-        	let modRole = message.guild.roles.find("name", "Staff");
-        	let adminRole = message.guild.roles.find("name", "Owner");
-        	var normalcmds = `**My Normal Commands are:** \n ${config.client.prefix}membercount \n ${config.client.prefix}serverinfo \n ${config.client.prefix}botservers \n ${config.client.prefix}date \n ${config.client.prefix}sourcecode \n ${config.client.prefix}avatar \n ${config.client.prefix}ping \n ${config.client.prefix}creator \n ${config.client.prefix}help \n ${config.client.prefix}stats \n ${config.client.prefix}myuserinfo`;
-        	message.author.sendMessage(normalcmds).catch(console.error);
+  if (command === "help") {
+      message.channel.sendMessage("https://www.zelfmoord1813.be/").catch(console.error);
+      let modRole = message.guild.roles.find("name", "Staff");
+      let adminRole = message.guild.roles.find("name", "Owner");
+      var cmds = ``;
+      cmds += `**My Normal Commands are:** \n ${config.client.prefix}membercount \n ${config.client.prefix}serverinfo \n ${config.client.prefix}botservers \n ${config.client.prefix}date \n ${config.client.prefix}sourcecode \n ${config.client.prefix}pokemon \n ${config.client.prefix}avatar \n ${config.client.prefix}ping \n ${config.client.prefix}creator \n ${config.client.prefix}help \n ${config.client.prefix}stats \n ${config.client.prefix}myuserinfo`;
+      if (message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy) {
+          cmds += `\n\n **My Staff commands are** \n ${config.client.prefix}embed [what you want to embed] \n ${config.client.prefix}addrole {user} [role] \n ${config.client.prefix}delrole {user} [role] \n ${config.client.prefix}announce [what you want to announce in #announcements] \n ${config.client.prefix}say [what you want to say] \n ${config.client.prefix}kick {user} \n \n more details on how to use these commands coming soon`;
+      }
+      if (message.member.roles.has(adminRole.id) || message.author.id === config.creator.Jimmy) {
+          cmds += `\n\n **My Owner/Creator Commands are:** \n ${config.client.prefix}setbotavatarurl (only Jimmy) \n ${config.client.prefix}setstatus (only Jimmy) \n ${config.client.prefix}shutdown \n ${config.client.prefix}restart`;
+      }
+      message.author.sendMessage(" ", {
+          embed: {
+              color: 0x00b7c6,
+          title: "Command List",
+          description: cmds,
+    }}).catch(console.error);
 
-	}
-  if (command === "staffhelp"){
-        	let modRole = message.guild.roles.find("name", "Staff");
-          if(!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
-        		return;
-        	}
-          var staffcmds = `**My Staff commands are:** \n ${config.client.prefix}embed [what you want to embed] \n ${config.client.prefix}addrole {user} [role] \n ${config.client.prefix}delrole {user} [role] \n ${config.client.prefix}announce [what you want to announce in #announcements] \n ${config.client.prefix}say [what you want to say] \n ${config.client.prefix}kick {user} \n \n more details on how to use these commands coming soon`;
-        	message.author.sendMessage(staffcmds).catch(console.error);
-          message.delete();
-	}
-  if (command === "ownerhelp"){
-        	let adminRole = message.guild.roles.find("name", "Owner");
-          if (!(message.member.roles.has(adminRole.id) || message.author.id === config.creator.Jimmy)) {
-        		return;
-        	}
-          var ownercmds = `**My Owner/Creator Commands are:** \n ${config.client.prefix}setbotavatarurl (only Jimmy) \n ${config.client.prefix}setstatus (only Jimmy) \n ${config.client.prefix}shutdown \n ${config.client.prefix}restart`;
-        	message.author.sendMessage(ownercmds).catch(console.error);
-          message.delete();
-	}
+  }
 	if (command === "say") {
 		let modRole = message.guild.roles.find("name", "Staff");
 		if(!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
@@ -276,15 +271,6 @@ bot.on('message', message => { //start of command list
 		}
 		message.channel.sendMessage("no hanky panky while I'm gone ok :wave:")
 		bot.destroy()
-	}
-	if (command === "restart") {
-		let modRole = message.guild.roles.find("name", "Owner");
-		let userToKick = message.mentions.users.first();
-		if(!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
-				return message.reply("pleb ur not admin").catch(console.error);
-		}
-		message.channel.sendMessage("ok brb bois :wave:")
-		process.exit(1)
 	}
 	if (command === "stats") {
 		var embed = new Discord.RichEmbed();
