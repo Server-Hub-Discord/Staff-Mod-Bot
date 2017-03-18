@@ -17,9 +17,10 @@
     "discord.js": "^10.0.1",
     "randomcolor":"0.4.4",
     "moment":"2.17.1",
-    "js-beautify": "^1.6.4"
+    "js-beautify": "^1.6.4",
+    "google-search": "0.0.5"
   },
   "devDependencies": {
-    "eslint": "3.17.1"    
+    "eslint": "3.17.1"
   }
 }
