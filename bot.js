@@ -155,7 +155,7 @@ bot.on('message', message => { //start of command list
 		// or the person who made the command: let member = msg.member;
 		// Add the role!
 		member.addRole(role.id).catch(console.error);
-		message.channel.sendMessage("role " + role + " has been added :thumbsup:")
+		message.channel.sendMessage("role " + args.join(" ") + " has been added :thumbsup:")
 	}
 	if (command === "delrole") {
 		let modRole = message.guild.roles.find("name", "Staff");
@@ -170,7 +170,7 @@ bot.on('message', message => { //start of command list
 		let member = message.guild.member(message.mentions.users.first());
 		// or the person who made the command: let member = msg.member;
 		member.removeRole(role.id).catch(console.error);
-		message.channel.sendMessage("role " + role + " has been deleted :thumbsup:")
+		message.channel.sendMessage("role " + args.join(" ") + " has been deleted :thumbsup:")
 	}
 	if (command === "sourcecode"){
 		message.channel.sendMessage("https://github.com/Server-Hub-Discord/staff-mod-bot");
