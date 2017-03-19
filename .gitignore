@@ -1,2 +1,4 @@
-config.json
+#boi
+*.json
 node_modules
+
