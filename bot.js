@@ -15,19 +15,9 @@ bot.on('ready',() => {
 });
 
 bot.on("guildMemberAdd", member =>{
-	bot.channels.get("227815924135231488").sendMessage("", {embed: {
-			color: 0x3447003,
-            		author: {
-				name: member.user.username,
-				icon_url: member.user.avatarURL
-			},
-			title: "welcome!",
-			description: member.user + " just joined",
-			timestamp: new Date(),
-			footer: {
-				icon_url: bot.user.avatarURL,
-				text: 'join message'
-			}
+  bot.channels.get("260884608667615243").sendMessage("", {embed: {
+		color: 0xFFFF00,
+		description: `${member.user} Welcome to Server Hub! A place where you can advertise your server! Post your server in #submit_server and make sure to read #info and #rules :smile: `
 	}}).catch(console.error);
 });
 
@@ -47,8 +37,7 @@ bot.on("guildBanRemove", member =>{
 });
 
 bot.on("guildMemberRemove", member => {
-	let guild = member.guild;
-	bot.channels.get("227815924135231488").sendMessage("", {embed: {
+	bot.channels.get("260884608667615243").sendMessage("", {embed: {
 		color: 0xFFFF00,
 		description: `${member.user.username}#${member.user.discriminator} just left the server`
 	}}).catch(console.error);
@@ -72,13 +61,29 @@ bot.on("guildCreate", guild => {
 bot.on('message', message => { //start of command list
 
 	if(message.author.bot) return;
+  let args = message.content.split(" ").slice(1);
+  var argresult = args.join(" ");
+
+  if (message.content.startsWith('[]' + 'eval')) {
+    if(message.author.id !== "226003765889597440") return;
+    try {
+      var code = args.join(" ");
+      var evaled = eval(code);
+
+      if (typeof evaled !== "string")
+        evaled = require("util").inspect(evaled);
+
+      message.channel.sendCode("xl", clean(evaled));
+      message.delete();
+    } catch (err) {
+      message.channel.sendMessage(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+    }
+  }
 	if(!message.content.startsWith(config.client.prefix))return;
 
 	let command = message.content.split(" ")[0];
 	command = command.slice(config.client.prefix.length);
 
-	let args = message.content.split(" ").slice(1);
-	var argresult = args.join(" ");
 
 	let guild = message.guild
 
@@ -100,10 +105,9 @@ bot.on('message', message => { //start of command list
           color: 0x006400,
           author: {
             name: guild.name,
-            icon_url: guild.icon,
+            icon_url: guild.iconURL,
           },
           description: `ID: ${guild.id}`,
-          thumbnail: guild.icon,
           fields: [
             {
               name: "Default Channel",
@@ -119,16 +123,21 @@ bot.on('message', message => { //start of command list
             },
             {
               name: "Server Owner",
-              value: `${guild.owner.username}#${guild.owner.discriminator} (${guild.owner.id})`
+              value: `${guild.owner.user.username}#${guild.owner.user.discriminator} (${guild.owner.id})`
             },
             {
               name: "Created On",
               value: guild.createdAt
             }
-          ]
+          ],
+          timestamp: new Date(),
+          footer: {
+            icon_url: bot.user.avatarURL,
+            text: '© Staff-Mod-Bot'
+          }
 
         }}).catch(console.error);
-    	}
+    }
 	if (command === "botservers") {
 		message.channel.sendMessage(bot.guilds.map(g => `${g.name} | ${g.memberCount}`));
 	}
@@ -192,6 +201,7 @@ bot.on('message', message => { //start of command list
 		message.channel.sendMessage("role " + args.join(" ") + " has been added  👍");
 
 	}
+
 	if (command === "delrole") {
 		let modRole = message.guild.roles.find("name", "Staff");
 		if(!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
@@ -277,6 +287,14 @@ bot.on('message', message => { //start of command list
 		}
 		message.channel.sendMessage(args.join(" ")).catch(console.error);
 	}
+  if (command === "dirtykick") {
+  // I'll make a code example on how to check if the user is allowed, one day!
+    let userToKick = message.mentions.users.first();
+    //we need to get a *GuildMember* object, mentions are only users. Then, we kick!
+    message.guild.member(userToKick).kick();
+    message.channel.sendMessage(`kicked.`);
+  // see I even catch the error!
+  }
 	if (command === "kick") {
 		let modRole = message.guild.roles.find("name", "Staff");
 		let userToKick = message.mentions.users.first();
@@ -324,20 +342,42 @@ bot.on('message', message => { //start of command list
 		);
 	}
 	if (command === "myuserinfo") {
+    let member = message.guild.member(message.mentions.users.first());
+    if (!member) {
+      var embed = new Discord.RichEmbed();
+  		embed.addField("Username", `${message.author.username}#${message.author.discriminator}`, true)
+  			.addField("ID", `${message.author.id}`, true)
+  			.setColor(randomcolor())
+  			.setFooter(' ', ' ')
+  			.setThumbnail(`${message.author.avatarURL}`)
+  			.setTimestamp()
+  			.setURL(`${message.author.avatarURL}`)
+  			.addField('Currently', `${message.author.presence.status}`, true)
+  			.addField('Game', `${message.author.presence.game === null ? "No Game" : message.author.presence.game.name}`, true)
+  			.addField('Joined Discord', `${moment(message.author.createdAt).format('DD.MM.YY')}`, true)
+  			.addField('Joined Server', `${moment(message.member.joinedAt).format('DD.MM.YY')}`, true)
+  			.addField('Roles', `\`${message.member.roles.filter(r => r.name).size}\``, true)
+  			.addField('Is Bot', `${message.author.bot}`, true)
+  		message.channel.sendEmbed(
+  			embed, {
+  				disableEveryone: true
+  			}
+  		);
+    }
 		var embed = new Discord.RichEmbed();
-		embed.addField("Username", `${message.author.username}#${message.author.discriminator}`, true)
-			.addField("ID", `${message.author.id}`, true)
+		embed.addField("Username", `${member.user.username}#${member.user.discriminator}`, true)
+			.addField("ID", `${member.user.id}`, true)
 			.setColor(randomcolor())
 			.setFooter(' ', ' ')
-			.setThumbnail(`${message.author.avatarURL}`)
+			.setThumbnail(`${member.user.avatarURL}`)
 			.setTimestamp()
-			.setURL(`${message.author.avatarURL}`)
-			.addField('Currently', `${message.author.presence.status}`, true)
-			.addField('Game', `${message.author.presence.game === null ? "No Game" : message.author.presence.game.name}`, true)
-			.addField('Joined Discord', `${moment(message.author.createdAt).format('MM.DD.YY')}`, true)
-			.addField('Joined Server', `${moment(message.member.joinedAt).format('MM.DD.YY')}`, true)
-			.addField('Roles', `\`${message.member.roles.filter(r => r.name).size}\``, true)
-			.addField('Is Bot', `${message.author.bot}`, true)
+			.setURL(`${member.user.avatarURL}`)
+			.addField('Currently', `${member.user.presence.status}`, true)
+			.addField('Game', `${member.user.presence.game === null ? "No Game" : member.presence.game.name}`, true)
+			.addField('Joined Discord', `${moment(member.user.createdAt).format('MM.DD.YY')}`, true)
+			.addField('Joined Server', `${moment(member.user.joinedAt).format('MM.DD.YY')}`, true)
+			.addField('Roles', `\`${member.roles.filter(r => r.name).size}\``, true)
+			.addField('Is Bot', `${member.user.bot}`, true)
 		message.channel.sendEmbed(
 			embed, {
 				disableEveryone: true
@@ -359,5 +399,12 @@ bot.on('message', message => { //start of command list
   }
 }); // END message handler
 
+function clean(text) {
+  if (typeof(text) === "string")
+    return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+  else
+      return text;
+}
 
 bot.login(config.token);
+
