@@ -19,6 +19,7 @@ bot.on("guildMemberAdd", member =>{
 		color: 0xFFFF00,
 		description: `${member.user} Welcome to Server Hub! A place where you can advertise your server! Post your server in #submit_server and make sure to read #info and #rules :smile: `
 	}}).catch(console.error);
+  bot.channels.get("260884608667615243").setTopic(member.guild.size)
 });
 
 bot.on("guildBanAdd", member =>{
@@ -41,6 +42,7 @@ bot.on("guildMemberRemove", member => {
 		color: 0xFFFF00,
 		description: `${member.user.username}#${member.user.discriminator} just left the server`
 	}}).catch(console.error);
+  bot.channels.get("260884608667615243").setTopic(member.guild.size)
 });
 
 bot.on("guildCreate", guild => {
@@ -65,7 +67,7 @@ bot.on('message', message => { //start of command list
   var argresult = args.join(" ");
 
   if (message.content.startsWith('[]' + 'eval')) {
-    if(message.author.id !== "226003765889597440") return;
+    if(!config.creator.Jimmy.includes(message.author.id)) return;
     try {
       var code = args.join(" ");
       var evaled = eval(code);
@@ -99,7 +101,7 @@ bot.on('message', message => { //start of command list
 	if (command === "serverinfo") {
         let guild = message.guild;
         function online(m) {
-          return m.presence.status === "online"
+          return m.presence.status === "online";
         }
         message.channel.sendMessage(" ", {embed: {
           color: 0x006400,
