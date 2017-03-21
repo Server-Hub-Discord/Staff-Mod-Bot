@@ -1,8 +1,15 @@
-const Discord = require("discord.js");
-const bot = new Discord.Client();
-const config = require("./config.json");
+//modules
 const moment = require('moment');
 const randomcolor = require('randomcolor');
+const Discord = require("discord.js");
+
+//bot client
+const bot = new Discord.Client();
+
+//json(s)
+const config = require("./config.json");
+
+
 
 process.on('uncaughtException', err =>{
     console.log(moment().format("Do MMMM YYYY ") + 'error: ' + err);//STOPS THE BOT FROM CRASHING
@@ -19,7 +26,6 @@ bot.on("guildMemberAdd", member =>{
 		color: 0xFFFF00,
 		description: `${member.user} Welcome to Server Hub! A place where you can advertise your server! Post your server in #submit_server and make sure to read #info and #rules :smile: `
 	}}).catch(console.error);
-  bot.channels.get("260884608667615243").setTopic(member.guild.size)
 });
 
 bot.on("guildBanAdd", member =>{
@@ -42,7 +48,6 @@ bot.on("guildMemberRemove", member => {
 		color: 0xFFFF00,
 		description: `${member.user.username}#${member.user.discriminator} just left the server`
 	}}).catch(console.error);
-  bot.channels.get("260884608667615243").setTopic(member.guild.size)
 });
 
 bot.on("guildCreate", guild => {
@@ -67,7 +72,7 @@ bot.on('message', message => { //start of command list
   var argresult = args.join(" ");
 
   if (message.content.startsWith('[]' + 'eval')) {
-    if(!config.creator.Jimmy.includes(message.author.id)) return;
+    if(message.author.id !== "226003765889597440") return;
     try {
       var code = args.join(" ");
       var evaled = eval(code);
@@ -101,7 +106,7 @@ bot.on('message', message => { //start of command list
 	if (command === "serverinfo") {
         let guild = message.guild;
         function online(m) {
-          return m.presence.status === "online";
+          return m.presence.status === "online"
         }
         message.channel.sendMessage(" ", {embed: {
           color: 0x006400,
@@ -159,7 +164,7 @@ bot.on('message', message => { //start of command list
 		}
 		let noto = message.content.split(" ").slice(1).join(" ");
 		const embed = new Discord.RichEmbed()
-    		embed.setColor(randomcolor())
+    embed.setColor(randomcolor())
 			.setDescription(noto)
 		message.channel.sendEmbed(
 			embed, {
@@ -262,66 +267,50 @@ bot.on('message', message => { //start of command list
 			}
 		);
 	}
-  	if (command === "help") {
-    	 	message.channel.sendMessage("https://www.zelfmoord1813.be/").catch(console.error);
-     		let modRole = message.guild.roles.find("name", "Staff");
-     		let adminRole = message.guild.roles.find("name", "Owner");
-      		var cmds = ``;
-      		cmds += `**My Normal Commands are:** \n ${config.client.prefix}membercount \n ${config.client.prefix}serverinfo \n ${config.client.prefix}botservers \n ${config.client.prefix}date \n ${config.client.prefix}sourcecode \n ${config.client.prefix}pokemon \n ${config.client.prefix}avatar \n ${config.client.prefix}ping \n ${config.client.prefix}creator \n ${config.client.prefix}help \n ${config.client.prefix}stats \n ${config.client.prefix}myuserinfo`;
-      		if (message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id)) {
-          		cmds += `\n\n **My Staff commands are** \n ${config.client.prefix}embed [what you want to embed] \n ${config.client.prefix}addrole {user} [role] \n ${config.client.prefix}delrole {user} [role] \n ${config.client.prefix}announce [what you want to announce in #announcements] \n ${config.client.prefix}say [what you want to say] \n ${config.client.prefix}kick {user} \n \n more details on how to use these commands coming soon`;
-      		}
-     		if (message.member.roles.has(adminRole.id) || config.creator.Jimmy.includes(message.author.id)) {
-          		cmds += `\n\n **My Owner/Creator Commands are:** \n ${config.client.prefix}setbotavatarurl (only Jimmy) \n ${config.client.prefix}setstatus (only Jimmy) \n ${config.client.prefix}shutdown \n ${config.client.prefix}restart`;
-      		}
-      		message.author.sendMessage(" ", {
-          		embed: {
-              			color: 0x00b7c6,
-          			title: "Command List",
-          			description: cmds,
-    		}}).catch(console.error);
+  if (command === "help") {
+      message.channel.sendMessage("https://www.zelfmoord1813.be/").catch(console.error);
+      let modRole = message.guild.roles.find("name", "Staff");
+      let adminRole = message.guild.roles.find("name", "Owner");
+      var cmds = ``;
+      cmds += `**My Normal Commands are:** \n ${config.client.prefix}membercount \n ${config.client.prefix}serverinfo \n ${config.client.prefix}botservers \n ${config.client.prefix}date \n ${config.client.prefix}sourcecode \n ${config.client.prefix}avatar \n ${config.client.prefix}ping \n ${config.client.prefix}creator \n ${config.client.prefix}help \n ${config.client.prefix}stats \n ${config.client.prefix}myuserinfo`;
+      if (message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id)) {
+          cmds += `\n\n **My Staff commands are** \n ${config.client.prefix}embed [what you want to embed] \n ${config.client.prefix}addrole {user} [role] \n ${config.client.prefix}delrole {user} [role] \n ${config.client.prefix}announce [what you want to announce in #announcements] \n ${config.client.prefix}say [what you want to say] \n ${config.client.prefix}kick {user} \n \n more details on how to use these commands coming soon`;
+      }
+      if (message.member.roles.has(adminRole.id) || config.creator.Jimmy.includes(message.author.id)) {
+          cmds += `\n\n **My Owner/Creator Commands are:** \n ${config.client.prefix}setbotavatarurl (only Jimmy) \n ${config.client.prefix}setstatus (only Jimmy) \n ${config.client.prefix}shutdown \n ${config.client.prefix}restart`;
+      }
+      message.author.sendMessage(" ", {
+          embed: {
+              color: 0x00b7c6,
+          title: "Command List",
+          description: cmds,
+    }}).catch(console.error);
 
-  	}
-	if (command === "say") {
-		let modRole = message.guild.roles.find("name", "Staff");
-		if(!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
-			return message.reply("pleb ur not an admin").catch(console.error);
-		}
-		message.channel.sendMessage(args.join(" ")).catch(console.error);
-	}
-  	if (command === "dirtykick") {
-	  	let modRole = message.guild.roles.find("name", "Staff");
-		let userToKick = message.mentions.users.first();
-		if(!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
-			return message.reply("pleb ur not mod").catch(console.error);
-		}
- 		// I'll make a code example on how to check if the user is allowed, one day!
-   		let userToKick = message.mentions.users.first();
-    		//we need to get a *GuildMember* object, mentions are only users. Then, we kick!
-    		message.guild.member(userToKick).kick();
-    		message.channel.sendMessage(`kicked.`);
-  	}
-	if (command === "kick") {
-		let modRole = message.guild.roles.find("name", "Staff");
-		let userToKick = message.mentions.users.first();
-		if(!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
-			return message.reply("pleb ur not mod").catch(console.error);
-		}
-		if(message.mention.user.size === 0) {
-			return message.reply("please mention a user to kick").catch(console.error);
-		}
-		let kickMember = message.guild.member(message.mentions.users.first());
-		if(!kickMember) {
-			return message.reply("that user dont exist bOi").catch(console.error);
-		}
-		if(!message.guild.member(bot.user).hasPermission("KICK_MEMBERS")) {
-			return message.reply("i dont have the permission (KICK_MEMBER) to do this :sadface:").catch(console.error);
-		}
-		//we need to get a *GuildMember* object, mentions are only users. Then, we kick!
-		message.guild.member(userToKick).kick().then(member => {
-			message.reply(`${member.user.username} was kicked.`).catch(console.error);
-		});
-	}
+  }
+  if (command === "say") {
+      let modRole = message.guild.roles.find("name", "Staff");
+      if (!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
+          return message.reply("pleb ur not an admin").catch(console.error);
+      }
+      let channel = message.mentions.channels.first();
+      if (!channel) {
+        message.channel.sendMessage(args.join(" ")).catch(console.error);
+      }
+      const messageContent = message.content.split(" ").slice(2).join(" ");
+      channel.sendMessage(messageContent).catch(console.error);
+  }
+  if (command === "kick") {
+    let modRole = message.guild.roles.find("name", "Staff");
+    if (!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
+        return message.reply("pleb ur not an admin").catch(console.error);
+    }
+  // I'll make a code example on how to check if the user is allowed, one day!
+    let userToKick = message.mentions.users.first();
+    //we need to get a *GuildMember* object, mentions are only users. Then, we kick!
+    message.guild.member(userToKick).kick();
+    message.channel.sendMessage(`kicked.`);
+  // see I even catch the error!
+}
 	if (command === "shutdown") {
 		let modRole = message.guild.roles.find("name", "Owner");
 		let userToKick = message.mentions.users.first();
