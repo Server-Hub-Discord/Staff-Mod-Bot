@@ -1,10 +1,10 @@
-//modules
+//main bot client constructors
+const Discord = require("discord.js");
+const bot = new Discord.Client();
+
+//extra modules
 const moment = require('moment');
 const randomcolor = require('randomcolor');
-const Discord = require("discord.js");
-
-//bot client
-const bot = new Discord.Client();
 
 //json(s)
 const config = require("./config.json");
