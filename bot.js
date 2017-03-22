@@ -1,10 +1,10 @@
-//main bot client constructors
-const Discord = require("discord.js");
-const bot = new Discord.Client();
-
-//extra modules
+//modules
 const moment = require('moment');
 const randomcolor = require('randomcolor');
+const Discord = require("discord.js");
+
+//bot client
+const bot = new Discord.Client();
 
 //json(s)
 const config = require("./config.json");
@@ -208,7 +208,35 @@ bot.on('message', message => { //start of command list
 		message.channel.sendMessage("role " + args.join(" ") + " has been added  👍");
 
 	}
-
+  if (command == "purge") {
+    let modRole = message.guild.roles.find("name", "Staff");
+    if (!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
+        return message.reply("pleb ur not an admin").catch(console.error);
+    }
+      var amount = parseInt(args[1]);
+      message.channel.fetchMessages({
+              limit: amount
+          })
+          .then(messages => {
+              messages.map(msg => message.delete().catch(console.error));
+          }).catch(console.error);
+  }
+  if (command == "clear") {
+    let modRole = message.guild.roles.find("name", "Staff");
+    if (!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
+        return message.reply("pleb ur not an admin").catch(console.error);
+    }
+      let delamount = parseInt(args[1]) ? parseInt(args[1]) : 1;
+      message.channel.fetchMessages({
+              limit: 100
+          })
+          .then(messages => {
+              msgar = messages.array();
+              msgar = msgar.filter(msg => message.author.id === bot.user.id);
+              msgar.length = delamount + 1;
+              msgar.map(msg => message.delete().catch(console.error));
+          });
+  }
 	if (command === "delrole") {
 		let modRole = message.guild.roles.find("name", "Staff");
 		if(!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
@@ -268,7 +296,7 @@ bot.on('message', message => { //start of command list
 		);
 	}
   if (command === "help") {
-      message.channel.sendMessage("https://www.zelfmoord1813.be/").catch(console.error);
+      message.channel.sendMessage("check your dms :rocket:").catch(console.error);
       let modRole = message.guild.roles.find("name", "Staff");
       let adminRole = message.guild.roles.find("name", "Owner");
       var cmds = ``;
@@ -289,15 +317,15 @@ bot.on('message', message => { //start of command list
   }
   if (command === "say") {
       let modRole = message.guild.roles.find("name", "Staff");
-      if (!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
+      if (!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
           return message.reply("pleb ur not an admin").catch(console.error);
       }
-      let channel = message.mentions.channels.first();
-      if (!channel) {
+      let CHannel = message.mentions.channels.first();
+      if (!CHannel) {
         message.channel.sendMessage(args.join(" ")).catch(console.error);
       }
       const messageContent = message.content.split(" ").slice(2).join(" ");
-      channel.sendMessage(messageContent).catch(console.error);
+      CHannel.sendMessage(messageContent).catch(console.error);
   }
   if (command === "kick") {
     let modRole = message.guild.roles.find("name", "Staff");
