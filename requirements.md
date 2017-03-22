@@ -1,9 +1,9 @@
-#requirements
+# requirements
 ## Node.Js
------------
-###discord.js
 
-###moment
+### discord.js
 
-###randomcolor
+### moment
+
+### randomcolor
 
