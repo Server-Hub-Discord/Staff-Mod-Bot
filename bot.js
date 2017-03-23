@@ -154,7 +154,7 @@ bot.on('message', message => { //start of command list
 		}
 		let args = message.content.split(" ").slice(1);
 		let text = args[0];
-		bot.user.setAvatarURL(text);
+		bot.user.setAvatar(text);
 		message.channel.sendMessage("my profile pic has been changed to " + text);
 	}
 	if (command === 'embed') {
@@ -208,35 +208,6 @@ bot.on('message', message => { //start of command list
 		message.channel.sendMessage("role " + args.join(" ") + " has been added  👍");
 
 	}
-  if (command == "purge") {
-    let modRole = message.guild.roles.find("name", "Staff");
-    if (!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
-        return message.reply("pleb ur not an admin").catch(console.error);
-    }
-      var amount = parseInt(args[1]);
-      message.channel.fetchMessages({
-              limit: amount
-          })
-          .then(messages => {
-              messages.map(msg => message.delete().catch(console.error));
-          }).catch(console.error);
-  }
-  if (command == "clear") {
-    let modRole = message.guild.roles.find("name", "Staff");
-    if (!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
-        return message.reply("pleb ur not an admin").catch(console.error);
-    }
-      let delamount = parseInt(args[1]) ? parseInt(args[1]) : 1;
-      message.channel.fetchMessages({
-              limit: 100
-          })
-          .then(messages => {
-              msgar = messages.array();
-              msgar = msgar.filter(msg => message.author.id === bot.user.id);
-              msgar.length = delamount + 1;
-              msgar.map(msg => message.delete().catch(console.error));
-          });
-  }
 	if (command === "delrole") {
 		let modRole = message.guild.roles.find("name", "Staff");
 		if(!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
@@ -320,12 +291,16 @@ bot.on('message', message => { //start of command list
       if (!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
           return message.reply("pleb ur not an admin").catch(console.error);
       }
-      let CHannel = message.mentions.channels.first();
-      if (!CHannel) {
-        message.channel.sendMessage(args.join(" ")).catch(console.error);
+      let CHannel = args[0];
+      if (CHannel !== message.mentions.channels.first()) {
+        return message.reply(args.join(" ")).catch(console.error);
       }
-      const messageContent = message.content.split(" ").slice(2).join(" ");
-      CHannel.sendMessage(messageContent).catch(console.error);
+      if(CHannel == message.mentions.channels.first()){
+      let CHaNnel = message.mentions.channels.first();
+      const messageContent = message.content.split(" ").slice(3).join(" ");
+      CHaNnel.sendMessage(messageContent).catch(console.error);
+      message.delete();
+    }
   }
   if (command === "kick") {
     let modRole = message.guild.roles.find("name", "Staff");
