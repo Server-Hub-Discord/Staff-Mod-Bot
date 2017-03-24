@@ -12,12 +12,18 @@ const config = require("./config.json");
 
 
 process.on('uncaughtException', err =>{
-    console.log(moment().format("Do MMMM YYYY ") + 'error: ' + err);//STOPS THE BOT FROM CRASHING
+	console.log(moment().format("Do MMMM YYYY ") + 'error: ' + err);//STOPS THE BOT FROM CRASHING
 });
 
 bot.on('ready',() => {
+	console.log(`---------------------------------------------`)
 	console.log(`Connected! ${config.emojis.success}`);
 	console.log(`Logged in as ${bot.user.username}`);
+	console.log(`token = ${config.token}`);
+	console.log(`game = ${config.setgame}`);
+	console.log(`prefix = ${config.client.prefix}`);
+	console.log(`console emojis = ${config.emojis}`)
+	console.log(`---------------------------------------------`)
 	bot.user.setGame(config.setgame);
 });
 
