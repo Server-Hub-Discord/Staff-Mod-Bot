@@ -292,22 +292,26 @@ bot.on('message', message => { //start of command list
     }}).catch(console.error);
 
   }
-  if (command === "say") {
+  if (command === "submit") {
       let modRole = message.guild.roles.find("name", "Staff");
       if (!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
           return message.reply("pleb ur not an admin").catch(console.error);
       }
-      let CHannel = args[0];
-      if (CHannel !== message.mentions.channels.first()) {
-        return message.reply(args.join(" ")).catch(console.error);
-      }
-      if(CHannel == message.mentions.channels.first()){
-      let CHaNnel = message.mentions.channels.first();
-      const messageContent = message.content.split(" ").slice(3).join(" ");
-      CHaNnel.sendMessage(messageContent).catch(console.error);
-      message.delete();
-    }
+      let CHannel = message.mentions.channels.first();
+			if (CHannel !== null) {
+  			const messageContent = message.content.split(" ").slice(3).join(" ");
+  			CHannel.sendMessage(messageContent).catch(console.error);
+					message.channel.sendMessage("Done :white_check_mark:")
+			}
+
   }
+	if (command === "say") {
+		let modRole = message.guild.roles.find("name", "Staff");
+		if (!(message.member.roles.has(modRole.id) || config.creator.Jimmy.includes(message.author.id))) {
+				return message.reply("pleb ur not an admin").catch(console.error);
+		}
+		message.channel.sendMessage(args.join(" ")).catch(console.error);
+	}
   if (command === "kick") {
     let modRole = message.guild.roles.find("name", "Staff");
     if (!(message.member.roles.has(modRole.id) || message.author.id === config.creator.Jimmy)) {
@@ -414,4 +418,3 @@ function clean(text) {
 }
 
 bot.login(config.token);
-
