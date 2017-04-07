@@ -1,3 +1,5 @@
+# Warning this is the old repository for the bot. For the updated one go to [this page](https://github.com/Server-Hub-Discord/development-rep)
+
 [![Build Status](https://travis-ci.org/Server-Hub-Discord/Staff-Mod-Bot.svg?branch=master)](https://travis-ci.org/Server-Hub-Discord/Staff-Mod-Bot)
 
 ![bot image](https://cdn.discordapp.com/attachments/269880942678638604/285425914613858306/eJwFwVEOgyAMANC7cABqi9TpbQgSNFNKaM0-lt19733dMy63ucOs6wawn5pl7F5NRqrFV5F6ldRP9VluSGYpH3dppkAc55lfHEKcmBEDAi0TLbjSSoQRAyHD095NPs33.png)
