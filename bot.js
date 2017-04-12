@@ -12,18 +12,21 @@ const config = require("./config.json");
 
 
 process.on('uncaughtException', err =>{
-	console.log(moment().format("Do MMMM YYYY ") + 'error: ' + err);//STOPS THE BOT FROM CRASHING
+	console.log(`---------------------------------------------`);
+	console.log(moment().format("Do MMMM YYYY ") + 'error: ');//STOPS THE BOT FROM CRASHING
+	console.log(err);
+	console.log(`---------------------------------------------`);
 });
 
 bot.on('ready',() => {
-	console.log(`---------------------------------------------`)
+	console.log(`---------------------------------------------`);
 	console.log(`Connected! ${config.emojis.success}`);
 	console.log(`Logged in as ${bot.user.username}`);
 	console.log(`token = ${config.token}`);
 	console.log(`game = ${config.setgame}`);
 	console.log(`prefix = ${config.client.prefix}`);
 	console.log(`console emojis = ${config.emojis}`)
-	console.log(`---------------------------------------------`)
+	console.log(`---------------------------------------------`);
 	bot.user.setGame(config.setgame);
 });
 
@@ -261,16 +264,6 @@ bot.on('message', message => { //start of command list
 	}
 	if (command === "ping"){
 		message.channel.sendMessage("Yes, yes I'm on").catch(console.error);
-	}
-	if (command === "creator"){
-		var embed = new Discord.RichEmbed();
-		embed.setColor(randomcolor())
-		.setDescription(`my creator is <@${config.creator.Jimmy}>`)
-		message.channel.sendEmbed(
-			embed, {
-				disableEveryone: true
-			}
-		);
 	}
   if (command === "help") {
       message.channel.sendMessage("check your dms :rocket:").catch(console.error);
